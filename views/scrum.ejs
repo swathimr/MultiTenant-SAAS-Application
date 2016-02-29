@@ -1,0 +1,90 @@
+<%- include layouts/header.ejs %>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['timeline']}]}"></script>
+
+
+
+<style>
+@media screen and (min-width: 768px) {
+    .custom-class {
+        width: 80%; /* either % (e.g. 60%) or px (400px) */
+    }
+    .table
+    {
+    font: 14px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+}
+</style>
+        <div class="page-data">
+         <form action="../sdlc/scrumChart" method="POST">
+          <input type="submit" value="show graph" />
+        </form>
+         <div class="table-responsive">
+            <table class="table" id="waterfallTable" cellpadding="3">
+            <% var matrixRowCount=0; %>
+            
+            <tr>
+            	<%
+            	var columnIds = data[matrixRowCount++];
+            	var columnLabels = data[matrixRowCount++];
+            	%>
+            	<th>Action</th>
+            	<%
+            	for(var columnCount = 1; columnCount<columnLabels.length; columnCount++){
+            	%>
+            		<th><%=columnLabels[columnCount]%></th>
+            	<%}%>
+            	
+            </tr>
+            <%
+            for(matrixRowCount=2; matrixRowCount<data.length; matrixRowCount++){
+            var valuesRow = data[matrixRowCount];
+            %>
+            	<form action="/sdlc/save_edit/<%=valuesRow[0]%>" method="POST">
+            	<tr>
+            		
+            		<td><input type="submit" value="SAVE"/></td>
+            		<%
+            		for(valuesRowCount=1; valuesRowCount<columnLabels.length; valuesRowCount++){
+            			
+            			if(columnLabels[valuesRowCount].indexOf('Day') > -1 || columnLabels[valuesRowCount].indexOf('Estimated') > -1){
+            			%>
+            			<td><input type="textbox" size="1" name="<%=columnIds[valuesRowCount]%>" value="<%=valuesRow[valuesRowCount]%>" /></td>
+            			<%}else{%>
+            			<td><input type="textbox" size="8" name="<%=columnIds[valuesRowCount]%>" value="<%=valuesRow[valuesRowCount]%>" /></td>
+            			<%}%>
+            		<%}%>
+            		
+            	</tr>
+            	</form>
+            <%}%>
+            
+            </table>
+                
+         </div>
+         
+         <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+      
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><strong>Burn Down Chart</strong></h4>
+              </div>
+              <div class="modal-body">
+                <div id="timeline" style="width: 900px; height: 180px;"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+      
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+         
+        <div id="linechart_material" ></div>
+        </div>    
+        <%- include layouts/footer.ejs %>  
+        
+       

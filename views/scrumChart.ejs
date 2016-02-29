@@ -1,0 +1,45 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Day');
+      data.addColumn('number', 'Ideal');
+      data.addColumn('number', 'Actual');
+      var total = <%=x[0]%>;
+      data.addRows([
+        [0,  60, <%=x[0]%>],
+        [1,  60-8.57, <%=x[1]%>],
+        [2,  60-8.57-8.57, <%=x[2]%>],
+        [3,  60-8.57-8.57-8.57, <%=x[3]%>],
+        [4,  60-8.57-8.57-8.57-8.57, <%=x[4]%>],
+        [5,  60-8.57-8.57-8.57-8.57-8.57, <%=x[5]%>],
+        [6,  60-8.57-8.57-8.57-8.57-8.57-8.57, <%=x[6]%>],
+        [7,  60-8.57-8.57-8.57-8.57-8.57-8.57-8.57, <%=x[7]%>]
+      ]);
+
+
+      var options = {
+        chart: {
+          title: 'Scrum Chart',
+          subtitle: 'Ideal vs Actual'
+        },
+        width: 900,
+        height: 500
+      };
+
+      var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="linechart_material"></div>
+</body>
+</html>

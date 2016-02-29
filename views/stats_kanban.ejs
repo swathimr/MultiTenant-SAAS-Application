@@ -1,0 +1,120 @@
+<html>
+  <head>
+       <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Member Login</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+      
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+        <% for(var i=0;i<card.length;i++){%>
+          ['<%=card[i].tenantData%>',<%=card[i].count%>],
+        <% } %>
+        ]);
+
+        // Set chart options
+        var options = {'title':'Total kanban status by using card details ',
+                       'width':500,
+                       'height':400};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_lane'));
+        chart.draw(data, options);
+      }
+      
+      google.setOnLoadCallback(drawChartPriority);
+      function drawChartPriority() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+            <% for(var i=0;i<priority.length;i++){%>
+          ['<%=priority[i].tenantData%>',<%=priority[i].count%>],
+        <% } %>
+        ]);
+
+        // Set chart options
+        var options = {'title':'Total kanban status by using priority details ',
+                       'width':500,
+                       'height':400};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_priority'));
+        chart.draw(data, options);
+        
+        
+      }
+      
+      google.setOnLoadCallback(drawChartCardType);
+      function drawChartCardType() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+       <% for(var i=0;i<cardType.length;i++){%>
+          ['<%=cardType[i].tenantData%>',<%=cardType[i].count%>],
+        <% } %>
+        ]);
+
+        // Set chart options
+        var options = {'title':'Total kanban status by using card type details ',
+                       'width':500,
+                       'height':400};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_cardtype'));
+        chart.draw(data, options);
+      }
+      
+      
+    </script>
+  </head>
+ 	<%- include layouts/header.ejs %>
+  <body>
+    <!--Div that will hold the pie chart-->
+    <ul class="nav nav-tabs">
+  		<li role="presentation" class="list-group-item list-group-item-success">Lane    <div id="chart_lane"></li>
+  		<li role="presentation" class="list-group-item list-group-item-success">Priority<div id="chart_priority"></li>
+  		<li role="presentation" class="list-group-item list-group-item-success">Card Type<div id="chart_cardtype"></li>
+  		<!--li role="presentation" class="list-group-item list-group-item-success">Time Line<div id="timeline"></li-->
+  		
+  		
+  		
+   </ul>
+    <%- include layouts/footer.ejs %>  
+  </body>
+</html>

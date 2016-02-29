@@ -1,0 +1,44 @@
+<%- include layouts/header.ejs %>
+        <div class="page-data">
+         <div class="data-btn">
+           <button onClick="addUser();">Project % Complete</button>
+           <button onClick="addUser();">View Graph</button>
+         </div>
+         <div class="data-table">
+            <table border="1" cellpadding="7" cellspacing="7">
+            <% var matrixRowCount=1; %>
+            <tr>
+            	<%
+            	var columnLabels = data[matrixRowCount];
+            	%>
+            	<th>RecordId</th>
+            	<%
+            	for(var columnCount = 1; columnCount<columnLabels.length; columnCount++){
+            	%>
+            		<th><%=columnLabels[columnCount]%></th>
+            	<%}%>
+            	<th>Action</th>
+            </tr>
+            <%
+            for(matrixRowCount=2; matrixRowCount<data.length; matrixRowCount++){
+            %>
+            	<tr>
+            		<%
+            		var valuesRow = data[matrixRowCount];
+            		%>
+            		<td><%=matrixRowCount-1%></td>
+            		<%
+            		for(valuesRowCount=1; valuesRowCount<valuesRow.length; valuesRowCount++){
+            		%>
+            			<td><%=valuesRow[valuesRowCount]%></td>
+            		<%}%>
+            		<td><button type="button" onclick="window.location.href='../sdlc/edit/<%=data[matrixRowCount][0]%>'">EDIT</button></td>
+            	</tr>
+            <%}%>
+            </table>
+                
+         </div>
+        </div>    
+        <%- include layouts/footer.ejs %>  
+        
+       

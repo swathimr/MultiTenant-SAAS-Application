@@ -1,0 +1,33 @@
+<%- include layouts/header.ejs %>
+        <div class="page-data">
+         
+         <div class="data-table">
+         <form action="/sdlc/save_edit/<%=recordId%>" method="POST">
+	        <table>
+            <%
+            var matrixRowCount=0;
+            var columnIds = data[matrixRowCount++]; 
+            var columnLabels = data[matrixRowCount++];
+            var valuesRow = data[matrixRowCount++];
+            
+           	for(var i=1; i<valuesRow.length; i++){
+           	%>
+           		<tr>
+           			<td>
+           				<%=columnLabels[i]%>
+           			</td>
+           			<td>
+           				<input type="textarea" name="<%=columnIds[i]%>" value="<%=valuesRow[i]%>" />
+           			</td>
+           		</tr>
+           	<%}%>
+            
+            
+            
+            </table>
+            <input type="submit" value="SAVE">
+            </form>
+         </div>
+         
+        </div>    
+        <%- include layouts/footer.ejs %>  

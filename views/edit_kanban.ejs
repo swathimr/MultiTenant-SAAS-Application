@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen"
+     href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">    
+	<script type="text/javascript"
+     src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script> 
+    <script type="text/javascript"
+     src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+    </script>
+    <script type="text/javascript">
+      $('#datetimepicker').datetimepicker({
+        format: 'dd/MM/yyyy hh:ii',
+        language: 'pt-BR'
+      });
+    </script>
+	   	
+ </head>
+<body style="background:#ddd">
+ 	<%- include layouts/header.ejs %>
+        <div class="page-data">
+         
+         <div class="data-table">
+         <form action="/sdlc/save_edit/<%=recordId%>" method="POST">
+	        <table>
+            <%
+            var matrixRowCount=0;
+            var columnIds = data[matrixRowCount++]; 
+            var columnLabels = data[matrixRowCount++];
+            var valuesRow = data[matrixRowCount++];
+            console.log("columnIds:"+columnIds);
+            console.log("columnLabels:"+columnLabels);
+            console.log("valuesRow:"+valuesRow);
+            
+           	for(var i=1; i<columnLabels.length; i++){
+           	%>
+           		<tr>
+           			<td>
+           				<%=columnLabels[i]%>
+           			</td>
+           			<td>
+           				<% var column =  columnLabels[i];
+           				console.log("column:"+column.indexOf("Time"));
+           				if(column.indexOf("Time") >0){%>
+                				<div class="input-append date form_datetime">
+  					  				<input size="16" type="text" value="<%=valuesRow[i]%>">
+    								<span class="add-on"><i class="icon-th"></i></span>
+    								<script type="text/javascript">
+    									$(".form_datetime").datetimepicker({
+        								format: "dd MM yyyy"
+    									});
+									</script>
+								</div>
+							
+			   				<%}
+			   				else if(column =="lane")
+			   				{
+							%>
+			   				<select default=<%=data[6]%> name="32">
+                    			<option>TODO</option>
+                    			<option>DOING</option>
+                    			<option>DONE</option>
+                    		</select>
+                    		<%}
+			   				else if(column =="cardType" )
+			   				{
+							%>
+			   				<select default=<%=data[7]%> name="35">
+                    			<option>information</option>
+                    			<option>deliverable</option>
+                    			<option>improvemnet</option>
+                    			<option>issue</option>
+                    			<option>task</option>
+                    		</select>
+                    		<%}
+			   				else if(column =="priority" )
+			   				{
+							%>
+			   				<select default=<%=data[8]%> name= "36">
+                    			<option>high</option>
+                    			<option>medium</option>
+                    			<option>low</option>
+                    			<option>critical</option>
+                    		</select>
+			   				<%
+			   				}
+			   				else{
+			   				%>
+           						<input type="textarea" name="<%=columnIds[i]%>" value="<%=valuesRow[i]%>"/>
+           					<%}%>
+           			</td>
+           			
+           		</tr>
+           	<%}%>
+                  <tr>
+                    <td></td>
+                    <td>
+                        &nbsp; <input type="submit" value="Save">
+                       <input type="button"value="Cancel" class="cancel" onClick="cancelAdd()">
+                    </td>
+                 </tr>          
+            </table>
+            </form>
+         </div>
+        </div> 
+
+	<%- include layouts/footer.ejs %>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
